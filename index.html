@@ -4,11 +4,54 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../style.css">
         <title>Document</title>
     </head>
     <body>
         <div id="container">
-            <div id="calculator"></div>
+            <div id="calculator">
+                <div class="hud">
+                    <div class="hudTop">
+                        <p class="result">0</p>
+                    </div>
+                    <div class="hudBot">
+                        <p class="display">1+2+3*(5*2)</p>
+                    </div>
+                </div>
+                <div class="inputs">
+                    <div id="ops">
+                        <div class="upper">
+                            <button class="funct">AC</button>
+                            <button class="funct">( )</button>
+                            <button class="funct">%</button>
+                            <button class="funct">/</button>
+                        </div>
+                        <div class="lower">
+                            <div class="numBts">
+                                <button class="numberPad">7</button>
+                                <button class="numberPad">8</button>
+                                <button class="numberPad">9</button>
+                                <button class="numberPad">4</button>
+                                <button class="numberPad">5</button>
+                                <button class="numberPad">6</button>
+                                <button class="numberPad">1</button>
+                                <button class="numberPad">2</button>
+                                <button class="numberPad">3</button>
+                                <button class="numberPad">0</button>
+                                <button class="numberPad">.</button>
+                                <button class="numberPad">del</button>
+                            </div>
+                            <div class="side">
+                                <button class="funct">*</button>
+                                <button class="funct">-</button>
+                                <button class="funct">+</button>
+                                <button class="funct">=</button>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
+    <script src="../script.js"></script>
 </html>

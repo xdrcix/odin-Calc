@@ -1,0 +1,128 @@
+#container {
+    display: flex;
+    border: 1px;
+    border-style: solid;
+    height: 100vh;
+
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgb(38, 110, 38);
+}
+
+#calculator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-color: black;
+
+    padding: 20px;
+    border: 15px solid #9E9E9E;
+    border-radius: 10px;
+    height: 80vh;
+    width: 50vw;
+    gap: 20px;
+}
+
+#ops {
+    height: 100%;
+    width: 100%;
+}
+
+.upper {
+    display: flex;
+    width: 100%;
+    height: 20%;
+}
+
+.upper button {
+    width: 25%;
+    flex-grow: 1;
+    background-color: #424242;
+}
+
+.lower {
+    display: flex;
+    height: 80%;
+}
+
+.numBts {
+    display: flex;
+    flex-wrap: wrap;
+    width: 75%;
+    height: 100%;
+}
+
+.numBts button {
+    width: 33.33%;
+    height: 25%;
+    flex-grow: 1;
+}
+
+.side {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+
+.side button {
+    flex-grow: 1;
+    background-color: #424242;
+}
+
+
+.hud {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: flex-end;
+
+    height: 30vh;
+    width: 100%;
+    background-color: rgb(70, 64, 64);
+}
+
+.hudTop, .hudBot {
+    display: flex;
+    justify-content: end;
+    align-items:flex-end;
+
+    width: 100%;
+    height: 50%;
+}
+
+.hudTop .result {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    color: white;
+    font-size: 2.8em;
+}
+
+.hudBot .display{
+    width: 100%;
+    margin: 0;
+    color: white;
+    font-size: 2.8em;
+}
+
+.inputs {
+    background-color: black;
+    width: 100%;
+    height: 100%;
+}
+
+
+.hud, .inputs {
+    border: 1px;
+    border-style: solid;
+
+}
+
+button {
+    font-size: 2em;
+    color: white;
+    background-color: #212121;
+    border-radius: 100px;
+}

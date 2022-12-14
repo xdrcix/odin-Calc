@@ -6,22 +6,46 @@
     operate
  */
 
-const add  = (a,b) => a + b;
 
-const subtract = (a,b) => a - b;
+//Operation Object
+const calcOperations = {
+    '*': (arg1,arg2) => arg1 * arg2,
+    '/': (arg1,arg2) => arg1 / arg2,
+    '+': (arg1,arg2) => arg1 + arg2,
+    '-': (arg1,arg2) => arg1 - arg2
+};
 
-const multiply = (a,b) => a * b;
+//Grab index of arguments
+const returnArgsIndex = (equation, operationIndex) => {
+    let arg1 = Number(equation[operationIndex-1]),
+        arg2 = Number(equation[operationIndex+1]);
+    return [arg1, arg2];
+};
 
-const divide =  (a,b) => a / b;
+//Reconstruct the equation array based on calculated value.
+const returnSpliceEquation = (equation, newValue, index) => {
+    equation.splice((index-1),3,newValue);
+    return equation;
+}
 
-const operate = (symbol, a, b) => {
-    if (symbol === '+')
-        add(a,b);
-    if (symbol === '-')
-        subtract(a,b);
-    if (symbol === '*')
-        multiply(a,b);
-    if (symbol === '/')
-        divide(a,b);
-        
+//Get arguments, calc arguments, and update equation array
+const equationLogic = (equation, operationType, operationIndex) => {
+    const getArgs = returnArgsIndex(equation, operationIndex);
+    const newValue = calcOperations[operationType](getArgs[0],getArgs[1]);
+    const newEquation = returnSpliceEquation(equation, newValue, operationIndex);
+    return newEquation;
+}
+
+//Main Loop
+const operateCalculatorInput = equation => {
+    let operationIndex;
+
+    Object.keys(calcOperations).forEach(operationType => {
+        //Check if any operations are found in equation and perform steps
+        while (equation.includes(operationType)) {
+            operationIndex = equation.indexOf(operationType);
+            equation = equationLogic(equation, operationType, operationIndex);
+        }
+    });
+    return Number(equation);
 }
