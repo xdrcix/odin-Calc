@@ -49,3 +49,39 @@ const operateCalculatorInput = equation => {
     });
     return Number(equation);
 }
+
+const numPad = document.querySelectorAll('.numberPad');
+const functPad = document.querySelectorAll('.funct');
+const hudEquation = document.querySelector('.display');
+
+
+numPad.forEach(button => {
+
+    button.addEventListener('click', e => {
+        console.log(e);
+        console.log(e.target.innerText);
+        if (hudEquation.innerText.includes('.') && e.target.innerText === '.'){
+            return;
+        }
+
+        hudEquation.innerText = `${hudEquation.innerHTML}` + `${e.target.innerText}`;
+
+        
+    });
+
+});
+
+functPad.forEach(button => {
+    button.addEventListener('click', e => {
+        console.log(e.target);
+        if(e.target.innerText === 'AC'){
+            hudEquation.innerText = '';
+            return;
+        }
+        if(e.target.innerText === 'del'){
+            let temp = hudEquation.innerText.slice(0,-1);
+            hudEquation.innerText = temp;
+            return;
+        }
+    });
+});
