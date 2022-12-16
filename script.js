@@ -15,11 +15,26 @@ const calcOperations = {
 const returnArgsIndex = (equation, operationIndex) => {
     let arg1 = Number(equation[operationIndex-1]),
         arg2 = Number(equation[operationIndex+1]);
+
+    if (isNaN(arg1)) arg1 = 0;
+    if (isNaN(arg2)) arg2 = 0;
+
     return [arg1, arg2];
 };
 
 //Reconstruct the equation array based on calculated value.
 const returnSpliceEquation = (equation, newValue, index) => {
+    //check for first value negative.
+    if(index === 0 && equation[0] === '-'){
+        equation.splice((index),2,newValue);
+        return equation;
+    }
+    //If operation is the last element, ignore it 
+    if(index === equation.length - 1){
+        equation.splice((index),1)
+        return equation;
+    }
+        
     equation.splice((index-1),3,newValue);
     return equation;
 }
@@ -35,6 +50,9 @@ const equationLogic = (equation, operationType, operationIndex) => {
 //Main Loop
 const operateCalculatorInput = equation => {
     let operationIndex;
+    if (equation.length < 3){
+        return;
+    }
 
     Object.keys(calcOperations).forEach(operationType => {
         //Check if any operations are found in equation and perform steps
@@ -51,46 +69,77 @@ const functionListener = document.querySelectorAll('.funct');
 const hudEquation = document.querySelector('.display');
 const equationString = document.querySelector('.result');
 
+
+
+const clearInput = (() => {hudEquation.innerHTML = '';});
+
 const clearHud = ( () => {
     hudEquation.innerText = '';
     equationString.innerText = '';
     return;    
 });
 
+const divByZero = ( equation => {
+    let equationTemp = [...equation];
+    while(equationTemp.includes('/')){
+        let check = equationTemp.findIndex(element => element === '/');
+        if (check == -1){
+            check = 0;
+            return false;
+        }
+        if (equationTemp[check + 1] == 0){
+            check = 0;
+            return true;
+        }
+        
+        equationTemp.splice(check,1);
+    }
+    return false;
+});
+
 const addToHud = ((newElement, operator) =>{
     console.log(newElement,operator)
-    let currentHud = equationString.innerHTML;
+    let currentHud = equationString.innerText;
     if (currentHud === '0'){
         currentHud = `${newElement}` + ` ${operator}`;
-        equationString.innerHTML = currentHud;
-        hudEquation.innerHTML = '';
+        equationString.innerText = currentHud;
+        clearInput();
         return;
     }
     if (operator === '='){
         equationString.innerText = `${currentHud}` + ` ${newElement}`;
-        let userEquation = equationString.innerHTML.split(' ');
-        console.log(userEquation);
-        let answer = operateCalculatorInput(userEquation);
+        let userEquation = equationString.innerText.split(' ');
+        let divisionByZero = divByZero(userEquation);
+        
+        if(divisionByZero){
+            divisionByZero = false;
+            clearInput();
+            return 'Nice try... Maybe next time';
+        }
+
+        let answer = operateCalculatorInput(userEquation).toFixed(6);
+        clearInput();
         return answer;
     }
 
     equationString.innerText = `${currentHud}` + ` ${newElement}` + ` ${operator}`;
-    hudEquation.innerHTML = '';
+    clearInput();
     return;
 });
 
 numberListener.forEach(button => {
 
     button.addEventListener('click', e => {
-        console.log(e);
-        console.log(e.target.innerText);
+        if(equationString.innerText === 'Nice try... Maybe next time'){
+            clearHud();
+        }
+
         if (hudEquation.innerText.includes('.') && e.target.innerText === '.'){
             return;
         }
 
         hudEquation.innerText = `${hudEquation.innerHTML}` + `${e.target.innerText}`;
-
-        
+     
     });
 
 });
@@ -98,6 +147,7 @@ numberListener.forEach(button => {
 functionListener.forEach(button => {
     button.addEventListener('click', e => {
         console.log(e.target);
+
         if(e.target.innerText === 'AC'){
             clearHud();
             return;
@@ -108,15 +158,10 @@ functionListener.forEach(button => {
             return;
         }
         if(e.target.innerText === '='){
-            addToHud(hudEquation.innerText, e.target.innerText);
-            
+            equationString.innerText = addToHud(hudEquation.innerText, e.target.innerText);
             return;
         }
 
         addToHud(hudEquation.innerHTML, e.target.innerHTML)
-        
-        
-        
-        
     });
 });
