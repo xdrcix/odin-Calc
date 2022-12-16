@@ -1,9 +1,5 @@
 /*  Functions to be made
-    Add
-    Subtract
-    multiply
-    divide
-    operate
+    Refactor so that operation is smoother.
  */
 
 
@@ -50,12 +46,40 @@ const operateCalculatorInput = equation => {
     return Number(equation);
 }
 
-const numPad = document.querySelectorAll('.numberPad');
-const functPad = document.querySelectorAll('.funct');
+const numberListener = document.querySelectorAll('.numberPad');
+const functionListener = document.querySelectorAll('.funct');
 const hudEquation = document.querySelector('.display');
+const equationString = document.querySelector('.result');
 
+const clearHud = ( () => {
+    hudEquation.innerText = '';
+    equationString.innerText = '';
+    return;    
+});
 
-numPad.forEach(button => {
+const addToHud = ((newElement, operator) =>{
+    console.log(newElement,operator)
+    let currentHud = equationString.innerHTML;
+    if (currentHud === '0'){
+        currentHud = `${newElement}` + ` ${operator}`;
+        equationString.innerHTML = currentHud;
+        hudEquation.innerHTML = '';
+        return;
+    }
+    if (operator === '='){
+        equationString.innerText = `${currentHud}` + ` ${newElement}`;
+        let userEquation = equationString.innerHTML.split(' ');
+        console.log(userEquation);
+        let answer = operateCalculatorInput(userEquation);
+        return answer;
+    }
+
+    equationString.innerText = `${currentHud}` + ` ${newElement}` + ` ${operator}`;
+    hudEquation.innerHTML = '';
+    return;
+});
+
+numberListener.forEach(button => {
 
     button.addEventListener('click', e => {
         console.log(e);
@@ -71,11 +95,11 @@ numPad.forEach(button => {
 
 });
 
-functPad.forEach(button => {
+functionListener.forEach(button => {
     button.addEventListener('click', e => {
         console.log(e.target);
         if(e.target.innerText === 'AC'){
-            hudEquation.innerText = '';
+            clearHud();
             return;
         }
         if(e.target.innerText === 'del'){
@@ -83,5 +107,16 @@ functPad.forEach(button => {
             hudEquation.innerText = temp;
             return;
         }
+        if(e.target.innerText === '='){
+            addToHud(hudEquation.innerText, e.target.innerText);
+            
+            return;
+        }
+
+        addToHud(hudEquation.innerHTML, e.target.innerHTML)
+        
+        
+        
+        
     });
 });
